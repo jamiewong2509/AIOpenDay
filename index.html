@@ -153,7 +153,7 @@ async function aNext(v){S.a=v;if(S.types.includes(2)&&['China','Taiwan'].include
   await bot(`We notice the new address is located in ${v.c}. Would you like to add a Chinese address to your Business Integrated Account to ensure seamless delivery of official mail from the Bank?<div class="row"><button class="btn p" onclick="lock(this);user('Yes, add');cnForm()">Yes, add</button><button class="btn" onclick="lock(this);user('No, process');S.z=null;aPrev()">No, process</button></div>`);
  else{S.z=null;aPrev()}}
 async function cnForm(){await bot(renderForm('f'+(++fid),CF,S.z||{},'Next',v=>{S.z=v;aPrev()},'Address in Chinese'),true)}
-async function aPrev(){const a=S.a,rows=[['Apply to',S.types.map(i=>TYPES[i]).join(', ')],['Country / Region',a.c],['Address line 1',a.a1],['Address line 2',a.a2],['Address line 3',a.a3]];
+async function aPrev(){const a=S.a,rows=[['Apply to',S.types.map(i=>TYPES[i]).join(', ')],['Country / Region',a.c],['English address line 1',a.a1],['English address line 2',a.a2],['English address line 3',a.a3]];
  if(S.z)rows.push(['Chinese address 1',S.z.z1],['Chinese address 2',S.z.z2],['Chinese address 3',S.z.z3]);
  await bot(`Please preview the new address(es) below. You may edit if required.${pvHTML(rows)}<div class="decl">By clicking “Submit” you hereby confirm the details of the request are correct.</div><div class="row"><button class="btn" onclick="lock(this);aForm(S.a)">Edit</button><button class="btn p" onclick="lock(this);face()">Submit</button></div>`,true)}
 async function face(){const o=$('#ov');o.style.display='flex';$('#ovt').textContent='Verifying your face… please look at the camera';await wait(3000);$('#ovt').textContent='✔ Verification successful';await wait(900);o.style.display='none';
