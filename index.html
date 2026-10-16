@@ -24,7 +24,7 @@ button{font:inherit;cursor:pointer}
 .btn.p{background:var(--red);color:#fff}.btn:disabled{opacity:.45;cursor:default}
 .row{display:flex;gap:8px;margin-top:12px}.row .btn{flex:1}
 label.f{display:block;margin-top:10px;font-size:13px;font-weight:600}
-input[type=text],input[type=date],input[type=email],input[type=tel],select{width:100%;min-width: 0;max-width: 100%;-webkit-appearance: none;padding:9px;border:1px solid var(--bd);border-radius:8px;background:var(--surf);color:var(--tx);font:16px;box-sizing: border-box;margin-top:4px}
+input[type=text],input[type=date],input[type=email],input[type=tel],select{width:100%;min-width: 0;max-width: 100%;overflow: hidden;padding:9px;border:1px solid var(--bd);border-radius:8px;background:var(--surf);color:var(--tx);font:16px;box-sizing: border-box;margin-top:4px}
 .ph{display:flex;gap:6px}.ph select{width:38%}.ph input{flex:1}
 .er{color:var(--err);font-size:12px;min-height:0;margin-top:2px}
 .bad{border-color:var(--err)!important}
@@ -103,7 +103,10 @@ function renderForm(id,fields,vals,btn,cb,title){F[id]={fields,cb};
   if(f.t==='sel')h+=`<select name="${f.k}"><option value="">Select</option>${f.o.map(o=>`<option ${o===v?'selected':''}>${o}</option>`).join('')}</select>`;
   else if(f.t==='ph')h+=`<div class="ph"><select name="${f.k}_c">${['+852','+86','+853','+886','+44','+1'].map(o=>`<option ${o===(vals[f.k+'_c']||'+852')?'selected':''}>${o}</option>`).join('')}</select><input type="tel" name="${f.k}" inputmode="numeric" maxlength="15" value="${esc(v)}" placeholder="Phone number"></div>`;
   else if(f.t==='yn')h+=['Yes','No'].map(o=>`<div class="rad"><input type="radio" name="${f.k}" value="${o}" ${v===o?'checked':''}><span>${o}</span></div>`).join('');
-  else h+=`<input type="${f.t||'text'}" name="${f.k}" value="${esc(v)}" maxlength="${f.m||60}" ${f.t==='date'?'max="'+new Date().toISOString().slice(0,10)+'"':''}>`;
+  else if(f.t==='date'){h+=`<div class="date-wrap"><input type="date" name="${f.k}" value="${esc(v)}" max="${new Date().toISOString().slice(0,10)}"></div>`;
+}else{
+  h+=`<input type="${f.t||'text'}" name="${f.k}" value="${esc(v)}" maxlength="${f.m||60}">`;
+}
   h+=`<div class="er" data-e="${f.k}"></div>`});
  return h+`<button class="btn p" style="width:100%;margin-top:14px" onclick="submitForm('${id}',this)">${btn}</button></div>`}
 function submitForm(id,btn){const root=document.getElementById(id),{fields,cb}=F[id];let ok=true,vals={};
